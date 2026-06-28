@@ -10,7 +10,7 @@ async function fetchAndDisplayProducts() {
     const container = document.getElementById('products-container');
     
     try {
-        showLoading(container);
+        showLoading(container, 'Loading products...');
         productsData = await fetchProducts();
         renderProducts(productsData, container);
     } catch (error) {
@@ -25,14 +25,6 @@ async function fetchProducts() {
     }
     const data = await response.json();
     return data.products;
-}
-
-function showLoading(container) {
-    container.innerHTML = '<p class="loading">Loading products...</p>';
-}
-
-function showError(container, message) {
-    container.innerHTML = `<p class="error">Error: ${message}</p>`;
 }
 
 function renderProducts(products, container) {
@@ -58,25 +50,6 @@ function createProductCard(product) {
             </div>
         </div>
     `;
-}
-
-function renderStars(rating) {
-    const fullStars = Math.floor(rating);
-    const halfStar = rating % 1 >= 0.5;
-    let stars = '';
-    
-    for (let i = 0; i < fullStars; i++) {
-        stars += '★';
-    }
-    if (halfStar) {
-        stars += '☆';
-    }
-    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-    for (let i = 0; i < emptyStars; i++) {
-        stars += '☆';
-    }
-    
-    return stars;
 }
 
 function attachEventListeners() {

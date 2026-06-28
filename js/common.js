@@ -27,6 +27,26 @@ function addToCart(product) {
     showSuccessMessage();
 }
 
+function removeFromCart(productId) {
+    const cart = getCart();
+    const updatedCart = cart.filter(item => item.id !== productId);
+    saveCart(updatedCart);
+}
+
+function updateQuantity(productId, quantity) {
+    const cart = getCart();
+    const item = cart.find(item => item.id === productId);
+    
+    if (item) {
+        if (quantity <= 0) {
+            removeFromCart(productId);
+        } else {
+            item.quantity = quantity;
+            saveCart(cart);
+        }
+    }
+}
+
 function showSuccessMessage() {
     let messageEl = document.getElementById('success-message');
     
@@ -50,22 +70,29 @@ function showSuccessMessage() {
     }, 3000);
 }
 
-function removeFromCart(productId) {
-    const cart = getCart();
-    const updatedCart = cart.filter(item => item.id !== productId);
-    saveCart(updatedCart);
+function showLoading(container, text = 'Loading...') {
+    container.innerHTML = `<p class="loading">${text}</p>`;
 }
 
-function updateQuantity(productId, quantity) {
-    const cart = getCart();
-    const item = cart.find(item => item.id === productId);
+function showError(container, message) {
+    container.innerHTML = `<p class="error">Error: ${message}</p>`;
+}
+
+function renderStars(rating) {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    let stars = '';
     
-    if (item) {
-        if (quantity <= 0) {
-            removeFromCart(productId);
-        } else {
-            item.quantity = quantity;
-            saveCart(cart);
-        }
+    for (let i = 0; i < fullStars; i++) {
+        stars += '★';
     }
+    if (hasHalfStar) {
+        stars += '☆';
+    }
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    for (let i = 0; i < emptyStars; i++) {
+        stars += '☆';
+    }
+    
+    return stars;
 }

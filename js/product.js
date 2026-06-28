@@ -24,7 +24,7 @@ async function fetchAndDisplayProduct(productId) {
     const container = document.getElementById('product-details-container');
     
     try {
-        showLoading(container);
+        showLoading(container, 'Loading product details...');
         currentProduct = await fetchProduct(productId);
         renderProductDetails(currentProduct, container);
     } catch (error) {
@@ -38,14 +38,6 @@ async function fetchProduct(productId) {
         throw new Error('Failed to fetch product details');
     }
     return await response.json();
-}
-
-function showLoading(container) {
-    container.innerHTML = '<p class="loading">Loading product details...</p>';
-}
-
-function showError(container, message) {
-    container.innerHTML = `<p class="error">Error: ${message}</p>`;
 }
 
 function showNoProductError() {
@@ -73,25 +65,6 @@ function renderProductDetails(product, container) {
         </div>
     `;
     attachEventListeners();
-}
-
-function renderStars(rating) {
-    const fullStars = Math.floor(rating);
-    const halfStar = rating % 1 >= 0.5;
-    let stars = '';
-    
-    for (let i = 0; i < fullStars; i++) {
-        stars += '★';
-    }
-    if (halfStar) {
-        stars += '☆';
-    }
-    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-    for (let i = 0; i < emptyStars; i++) {
-        stars += '☆';
-    }
-    
-    return stars;
 }
 
 function attachEventListeners() {
