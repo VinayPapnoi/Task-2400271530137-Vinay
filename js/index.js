@@ -1,3 +1,5 @@
+let productsData = [];
+
 document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
@@ -9,8 +11,8 @@ async function fetchAndDisplayProducts() {
     
     try {
         showLoading(container);
-        const products = await fetchProducts();
-        renderProducts(products, container);
+        productsData = await fetchProducts();
+        renderProducts(productsData, container);
     } catch (error) {
         showError(container, error.message);
     }
@@ -94,4 +96,11 @@ function handleViewDetails(e) {
 }
 
 function handleAddToCart(e) {
+    e.preventDefault();
+    const productId = parseInt(e.target.getAttribute('data-id'));
+    const product = productsData.find(p => p.id === productId);
+    
+    if (product) {
+        addToCart(product);
+    }
 }

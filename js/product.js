@@ -1,3 +1,5 @@
+let currentProduct = null;
+
 document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
@@ -23,8 +25,8 @@ async function fetchAndDisplayProduct(productId) {
     
     try {
         showLoading(container);
-        const product = await fetchProduct(productId);
-        renderProductDetails(product, container);
+        currentProduct = await fetchProduct(productId);
+        renderProductDetails(currentProduct, container);
     } catch (error) {
         showError(container, error.message);
     }
@@ -100,4 +102,8 @@ function attachEventListeners() {
 }
 
 function handleAddToCart(e) {
+    e.preventDefault();
+    if (currentProduct) {
+        addToCart(currentProduct);
+    }
 }
