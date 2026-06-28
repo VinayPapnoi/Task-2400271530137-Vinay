@@ -89,6 +89,7 @@ function attachEventListeners() {
 
 function handleViewDetails(e) {
     const productId = e.target.getAttribute('data-id');
+    localStorage.setItem('selectedProductId', productId);
     window.location.href = `product.html?id=${productId}`;
 }
 
