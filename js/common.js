@@ -42,6 +42,11 @@ function showSuccessMessage() {
     
     setTimeout(() => {
         messageEl.classList.remove('show');
+        setTimeout(() => {
+            if (messageEl.parentNode) {
+                messageEl.parentNode.removeChild(messageEl);
+            }
+        }, 300);
     }, 3000);
 }
 
